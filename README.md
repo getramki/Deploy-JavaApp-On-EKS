@@ -1,11 +1,11 @@
-# Build Docker Container for Java App and Deploy on Amazon EKS
-This Repo contains a Sample Spring Boot Java App with the dockerfile which uses Amazon Corretto 17 as base image and manifestes for creating an Amazon EKS cluster and deploying the sample app to the cluster as a container and exposing it with a service and classic load balancer.
+# Build Docker Container for Java App and Deploying it on Amazon EKS
+This repo contains a Sample Spring Boot Java App with the dockerfile which uses Amazon Corretto 17 as base image and manifestes for creating an Amazon EKS cluster and deploying the sample app to the cluster as a container and exposing it with a service and classic load balancer.
 
 ### Prerequisites
 Docker, AWS Account and IAM user with necessary permissions for creating EKS Cluster, aws cli, configure IAM user with necessary programmatic permissions, eksctl cli, kubectl
 Please install and configure above before going further
 
-* You can incurr charges in your AWS Account by following this steps below
+* You can incur charges in your AWS Account by following this steps below
 * The code will deploy in us-west-2 region, change it where ever necessary if deploying in another region
 
 After downloading the repo in the terminal CD to repo directory and follow the steps for
@@ -56,11 +56,17 @@ Update Image URL in deployment.yaml file Replace-With-AWS-Account-ID
 
 * Deploy Java Sample-App
 <pre><code>kubectl apply -f deployment.yaml</pre></code>
+
+* Deploy Java Sample-App Service
 <pre><code>kubectl apply -f service.yaml</pre></code>
+
+* [Not Necessary] Deploy Java Sample-App ingress for Application Load balancer, you need to install AWS Load balancer controller as per guide here https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html
 <pre><code>kubectl apply -f ingress.yaml</pre></code>
-<pre><code>kubectl get deployment sample-app</pre></code>
+
 
 * Get Deployments
+<pre><code>kubectl get deployment sample-app</pre></code>
+
 <pre><code>kubectl get deployments</pre></code>
 
 <pre><code>kubectl get service sample-app -o wide</pre></code>
