@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-app
+  labels:
+    app: sample-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: sample-app
+    spec:
+      containers:
+      - image: Replace-With-AWS-Account-ID.dkr.ecr.us-west-2.amazonaws.com/sample-repo:latest
+        imagePullPolicy: Always
+        name: sample-app
+        ports:
+        - containerPort: 8080
+          protocol: TCP

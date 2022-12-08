@@ -1,0 +1,16 @@
+FROM amazoncorretto:17-alpine-jdk  as base
+WORKDIR /app
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:resolve
+COPY src ./src
+CMD ["./mvnw", "spring-boot:run"]
+
+FROM base as build
+RUN ./mvnw package
+
+FROM amazoncorretto:17-alpine-jdk as production
+EXPOSE 8080
+COPY --from=build /app/target/sample-*.jar /sample.jar
+CMD ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/sample.jar"]
+
